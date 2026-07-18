@@ -46,7 +46,7 @@ connectBtn.onclick = () => {
         return;
     }
    // speakAlert("Connected to 24 Data.");
-    ws = new WebSocket("https://tcas24-3w0n.onrender.com");
+    ws = new WebSocket("https://tcas24-3w0n.onrender.com"); // If not hosted on render (if you are using server.js) then use the socket created there otherwise use official WebSocket or "wss://ws.awdevsoftware.org"
 
     ws.onopen = () => {
         connectBtn.textContent = "Disconnect";
