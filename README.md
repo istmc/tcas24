@@ -8,4 +8,6 @@ Simply go to the website https://tcas24-3w0n.onrender.com (more reliable) or htt
 Please create an issue. If you have a suggestion to the code, feel free to create a pull request.
 ### I have a question about tcas24
 You can ask your question in Issues or message me. I will try to respond as soon as possible.
+
 ## I hope you enjoy using tcas24!
+Version 2 of tcas24 (with more features and a lot less bugs) is *hopefully* coming out on Aug 6 2026
