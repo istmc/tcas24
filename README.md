@@ -10,4 +10,4 @@ Please create an issue. If you have a suggestion to the code, feel free to creat
 You can ask your question in Issues or message me. I will try to respond as soon as possible.
 
 ## I hope you enjoy using tcas24!
-Version 2 of tcas24 (with more features and a lot less bugs) is *hopefully* coming out on Aug 6 2026
+Version 2 of tcas24 is out now
