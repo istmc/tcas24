@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tcas24 v2.0.1</title>
+    <link rel="icon" type="image/png" href="https://tcas24.xyz/ftcas24.png">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="main-container">
+        
+        <header class="header">
+            <div class="header-left">
+                <div class="logo">TCAS24</div>
+                <div class="system-status">
+                    <span id="statusIndicator" class="status-dot"></span>
+                    <span id="statusText">Disconnected from WebSocket</span>
+                </div>
+            </div>
+            <div class="header-center">
+                <div class="system-info">
+                    <div class="info-item">
+                        <label>OWN ALT:</label>
+                        <span id="ownAlt">--</span>
+                    </div>
+                    <div class="info-item">
+                        <label>HEADING:</label>
+                        <span id="ownHeading">---°</span>
+                    </div>
+                    <div class="info-item">
+                        <label>SPEED:</label>
+                        <span id="ownSpeed">---</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <button id="connectBtn" class="btn-connect">CONNECT</button>
+                <button id="toggleDebugBtn" class="btn-icon">⚙</button>
+            </div>
+        </header>
+
+        
+        <div class="content-wrapper">
+            
+            <aside class="left-panel">
+                <div class="panel-section">
+                    <h3>AIRCRAFT SELECT</h3>
+                    <select id="pilotSelect" class="select-aircraft">
+                        <option value="">Connect to see aircraft</option>
+                    </select>
+                </div>
+
+                <div class="panel-section">
+                    <h3>DISPLAY OPTIONS</h3>
+                    <div class="toggle-group">
+                        <label class="toggle-item">
+                            <input type="checkbox" id="toggleInfo" />
+                            <span>Aircraft Info (I)</span>
+                        </label>
+                        <label class="toggle-item">
+                            <input type="checkbox" id="toggleGround" />
+                            <span>Show Ground (G)</span>
+                        </label>
+                       
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>ZOOM & VIEW</h3>
+                    <div class="zoom-controls">
+                        <button id="zoomOut" class="btn-zoom">−</button>
+                        <div class="zoom-level">
+                            <span id="zoomDisplay">1.0x</span>
+                        </div>
+                        <button id="zoomIn" class="btn-zoom">+</button>
+                    </div>
+                    <div class="heading-info">
+                        <label>Map Heading:</label>
+                        <span id="mapHeading">000°</span>
+                    </div>
+                </div>
+
+                <div class="panel-section threat-levels">
+                    <h3>THREAT LEVELS</h3>
+                    <div class="threat-item">
+                        <div class="threat-symbol ra"></div>
+                        <div class="threat-text">RA - Resolution Advisory</div>
+                    </div>
+                    <div class="threat-item">
+                        <div class="threat-symbol ta"></div>
+                        <div class="threat-text">TA - Traffic Advisory</div>
+                    </div>
+                    <div class="threat-item">
+                        <div class="threat-symbol prox"></div>
+                        <div class="threat-text">PROX - Proximity</div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>KEYBOARD SHORTCUTS</h3>
+                    <div class="shortcuts">
+                        <div class="shortcut">
+                            <kbd>I</kbd><span>Toggle Info</span>
+                        </div>
+                        <div class="shortcut">
+                            <kbd>G</kbd><span>Show Ground</span>
+                        </div>
+                        <div class="shortcut">
+                            <kbd>A/D</kbd><span>Rotate Map</span>
+                        </div>
+                        <div class="shortcut">
+                            <kbd>↑↓</kbd><span>Scroll Zoom</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <p>version 2.0.1</p>
+                    <a href="https://github.com/notmc1/tcas24">GitHub Repository</a>
+                    <p class="credit">WebSocket & Hosting by <a href="https://awdevhardware.org/">awdev</a></p>
+                </div>
+            </aside>
+
+            
+            <main class="radar-container">
+                <div class="radar-wrapper">
+                    <canvas id="tcasCanvas" width="1400" height="900"></canvas>
+                    <div id="alertBanner" class="alert-banner">
+                        <div class="alert-content"></div>
+                    </div>
+                </div>
+            </main>
+
+            
+            <aside class="right-panel">
+                <div class="panel-section">
+                    <h3>ACTIVE THREATS</h3>
+                    <div id="threatsList" class="threats-list"></div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>CONNECTION INFO</h3>
+                    <div class="connection-info">
+                        <div class="info-row">
+                            <span>Status:</span>
+                            <span id="connStatus">DISCONNECTED</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Aircraft Count:</span>
+                            <span id="aircraftCount">0</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Last Update:</span>
+                            <span id="lastUpdate">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>RADAR INFO</h3>
+                    <div id="radarInfo" class="radar-info"></div>
+                </div>
+            </aside>
+        </div>
+
+        
+        <div id="debugPanel" class="debug-panel">
+            <div class="debug-header">
+                <h3>Data</h3>
+                <button id="closeDebugBtn" class="btn-close">×</button>
+            </div>
+            <div class="debug-content">
+                <div class="debug-section">
+                    <div class="debug-title">Received Data</div>
+                    <div id="rawStream" class="debug-box"></div>
+                </div>
+                <div class="debug-section">
+                    <div class="debug-title">Processed Data</div>
+                    <div id="procStream" class="debug-box"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./tcas.js"></script>
+</body>
+</html>
